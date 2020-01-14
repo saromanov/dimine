@@ -1,23 +1,27 @@
+use std::ops::Add;
 
 pub type Input = Vec<i32>;
 
-pub trait Entropy<T: Ord> {
-    fn compute(i1:T, i2:T) -> Result<String, String>;
+pub trait Entropy<T> {
+    fn new(i1:Vec<T>) -> Self;
+    fn compute(&self) -> Option<i32>;
 }
 
-#[derive(Debug, PartialEq)]
-pub struct Conditional<T: Ord> {
-    i1: T
+#[derive(Debug, PartialEq, Eq)]
+pub struct Conditional<T> {
+    i1: Vec<T>
 }
 
-impl <T:Ord> Entropy<T> for Conditional<T> {
-    fn new(&self, i1:T) -> Self {
-        self.i1 = i1
+impl <T:Add<Output = T> + Copy> Entropy<T> for Conditional<T> {
+   fn new(i1:Vec<T>) -> Conditional<T> {
+        Conditional {
+            i1:i1,
+        }
     }
 
-    fn compute(&self) -> Result<String, String> {
+    fn compute(&self) -> Option<i32> {
         self.i1.iter().map(|&x| x + 1).collect::<Vec<_>>();
-        Ok("aaa")
+        None
     }
 }
 
