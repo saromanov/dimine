@@ -20,7 +20,7 @@ impl <T:Add<Output = T> + Copy> Entropy<T> for Conditional<T> {
     }
 
     fn compute(&self) -> Option<i32> {
-        self.i1.iter().map(|&x| x + 1).collect::<Vec<_>>();
+        self.i1.iter().map(|&x| x).collect::<Vec<_>>();
         None
     }
 }
